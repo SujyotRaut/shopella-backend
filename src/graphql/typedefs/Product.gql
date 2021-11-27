@@ -1,0 +1,33 @@
+type Product {
+  id: ID!
+  name: String
+  brand: String
+  category: String
+  images: [String!]
+  discount: Float
+  price: Float
+  rating: Float
+  ratingCount: Int
+  sizes: [Size!]
+  colors: [Color!]
+  tags: [Tag!]
+  reviews: [Review!]
+}
+
+type Size {
+  id: Int!
+  size: String
+  products: [Product!]
+}
+
+type Color {
+  id: Int!
+  color: String
+  products: [Product!]
+}
+
+type Tag {
+  id: Int!
+  tag: String
+  products: [Product!]
+}

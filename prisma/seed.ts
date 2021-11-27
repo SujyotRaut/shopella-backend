@@ -3,6 +3,24 @@ import fs from 'fs';
 import path from 'path';
 
 const prisma = new PrismaClient();
+const colors = [
+  '#9BB7D4',
+  '#1B7340',
+  '#E9897E',
+  '#0072B5',
+  '#FDAC53',
+  '#B55A30',
+  '#A0DAA9',
+  '#F19828',
+  '#D2386C',
+  '#926AA6',
+  '#FF0000',
+  '#FFFFFF',
+  '#000000',
+  '#964B00',
+  '#FFFF00',
+  '#FFC0CB',
+];
 
 interface ReviewJSON {
   reviewer_name: string;
@@ -48,11 +66,18 @@ async function main() {
 }
 
 async function createProduct(product: ProductJSON) {
+  const c = [
+    colors[
+      ((getRandomInt(0, colors.length), getRandomInt(0, colors.length)),
+      getRandomInt(0, colors.length))
+    ],
+  ];
+
   await prisma.product.upsert({
-    where: { productId: product.id },
+    where: { id: product.id },
     update: {},
     create: {
-      productId: product.id,
+      id: product.id,
       name: product.name,
       brand: product.brand,
       category: product.category,
@@ -62,7 +87,7 @@ async function createProduct(product: ProductJSON) {
       rating: product.rating,
       ratingCount: product.rating_count,
       colors: {
-        connectOrCreate: product.colors.map((color) => ({
+        connectOrCreate: c.map((color) => ({
           where: { color },
           create: { color },
         })),
@@ -95,15 +120,15 @@ async function createReview(review: ReviewJSON, productId: string) {
           create: {
             name: review.reviewer_name,
             email,
+            password: 'password',
           },
         },
       },
-      product: { connect: { productId } },
+      product: { connect: { id: productId } },
     },
   });
 }
 
-// Convert product fields to appropriate types
 function mapFunc(product: ProductJSON) {
   // Convert rating string to number
   product.rating = parseFloat(`${product.rating}`);
@@ -116,6 +141,10 @@ function mapFunc(product: ProductJSON) {
   // Convert discount string to number
   const discount = parseInt(`${product.discount}`.replace('(', ''));
   product.discount = discount;
+
+  // Remove unnecessary data from size
+  const sizes = product.sizes.map((size) => size.split(' ')[0]);
+  product.sizes = sizes;
 
   // Convert original_price string to number
   const original_price = parseInt(`${product.original_price}`.split(' ')[1]);
@@ -134,6 +163,14 @@ function mapFunc(product: ProductJSON) {
   });
 
   return product;
+}
+
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+
+  // The maximum is exclusive and the minimum is inclusive
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 main()

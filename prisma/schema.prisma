@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  userId  String   @id @default(uuid())
-  name    String
-  email   String   @unique
-  reviews Review[]
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  reviews  Review[]
 }
 
 model Product {
-  productId   String   @id
+  id          String   @id
   name        String
   brand       String
   category    String
@@ -26,7 +27,7 @@ model Product {
   discount    Float?
   price       Float
   rating      Float?
-  ratingCount Int
+  ratingCount Int      @default(0)
   colors      Color[]
   sizes       Size[]
   tags        Tag[]
@@ -34,28 +35,29 @@ model Product {
 }
 
 model Color {
-  color    String    @id
+  id       Int       @id @default(autoincrement())
+  color    String    @unique
   products Product[]
 }
 
 model Size {
-  size     String    @id
+  id       Int       @id @default(autoincrement())
+  size     String    @unique
   products Product[]
 }
 
 model Tag {
-  tag      String    @id
+  id       Int       @id @default(autoincrement())
+  tag      String    @unique
   products Product[]
 }
 
 model Review {
-  reviewId   String  @id @default(cuid())
+  id         String  @id @default(cuid())
   rating     Float
   review     String
-  reviewer   User    @relation(fields: [reviewerId], references: [userId])
+  reviewer   User    @relation(fields: [reviewerId], references: [id])
   reviewerId String
-  product    Product @relation(fields: [productId], references: [productId])
+  product    Product @relation(fields: [productId], references: [id])
   productId  String
-
-  // @@id([productId, reviewerId])
 }
