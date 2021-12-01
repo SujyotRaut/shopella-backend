@@ -1,9 +1,13 @@
 import { ColorResolvers } from '../../generated/graphql-types';
 
 const Color: ColorResolvers = {
-  products: async (color, _, ctx) => {
+  products: (parent, _, ctx) => {
     console.log('Color > products');
-    return null;
+    return ctx.prisma.color
+      .findUnique({
+        where: { id: parent.id },
+      })
+      .products();
   },
 };
 

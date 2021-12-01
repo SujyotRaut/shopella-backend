@@ -1,13 +1,15 @@
 import { ReviewResolvers } from '../../generated/graphql-types';
 
 const Review: ReviewResolvers = {
-  product: (review, _, ctx) => {
+  product: (parent, _, ctx) => {
     console.log('Review > product');
-    return null;
+    return ctx.prisma.review.findUnique({ where: { id: parent.id } }).product();
   },
-  reviewer: (review, _, ctx) => {
+  reviewer: (parent, _, ctx) => {
     console.log('Review > reviewer');
-    return null;
+    return ctx.prisma.review
+      .findUnique({ where: { id: parent.id } })
+      .reviewer();
   },
 };
 

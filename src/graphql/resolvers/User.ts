@@ -1,9 +1,9 @@
 import { UserResolvers } from '../../generated/graphql-types';
 
 const User: UserResolvers = {
-  reviews: (user, _, ctx) => {
+  reviews: (parent, _, ctx) => {
     console.log('User > reviews');
-    return null;
+    return ctx.prisma.user.findUnique({ where: { id: parent.id } }).reviews();
   },
 };
 

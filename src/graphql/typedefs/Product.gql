@@ -5,7 +5,8 @@ type Product {
   category: String
   images: [String!]
   discount: Float
-  price: Float
+  originalPrice: Float
+  discountedPrice: Float
   rating: Float
   ratingCount: Int
   sizes: [Size!]

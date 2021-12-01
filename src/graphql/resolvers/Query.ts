@@ -7,24 +7,11 @@ const Query: QueryResolvers = {
   },
   product: async (_, args, ctx) => {
     console.log('Query > product');
-    return ctx.prisma.product.findUnique({
-      where: { id: args.id },
-      select: {
-        id: true,
-        name: true,
-        brand: true,
-        // images: true,
-        category: true,
-        discount: true,
-        price: true,
-        rating: true,
-        ratingCount: true,
-      },
-    });
+    return ctx.prisma.product.findUnique({ where: { id: args.id } });
   },
   products: (_, args, ctx) => {
     console.log('Query > products');
-    return null;
+    return ctx.prisma.product.findMany({ take: 10 });
   },
 };
 

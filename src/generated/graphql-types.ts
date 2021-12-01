@@ -28,10 +28,11 @@ export type Product = {
   category?: Maybe<Scalars['String']>;
   colors?: Maybe<Array<Color>>;
   discount?: Maybe<Scalars['Float']>;
+  discountedPrice?: Maybe<Scalars['Float']>;
   id: Scalars['ID'];
   images?: Maybe<Array<Scalars['String']>>;
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
+  originalPrice?: Maybe<Scalars['Float']>;
   rating?: Maybe<Scalars['Float']>;
   ratingCount?: Maybe<Scalars['Int']>;
   reviews?: Maybe<Array<Review>>;
@@ -193,10 +194,11 @@ export type ProductResolvers<ContextType = Context, ParentType extends Resolvers
   category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   colors?: Resolver<Maybe<Array<ResolversTypes['Color']>>, ParentType, ContextType>;
   discount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  discountedPrice?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   images?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  price?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  originalPrice?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   ratingCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   reviews?: Resolver<Maybe<Array<ResolversTypes['Review']>>, ParentType, ContextType>;

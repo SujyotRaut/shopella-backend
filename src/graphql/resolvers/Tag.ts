@@ -1,9 +1,13 @@
 import { TagResolvers } from '../../generated/graphql-types';
 
 const Tag: TagResolvers = {
-  products: (tag, _, ctx) => {
+  products: (parent, _, ctx) => {
     console.log('Tag > products');
-    return null;
+    return ctx.prisma.tag
+      .findUnique({
+        where: { id: parent.id },
+      })
+      .products();
   },
 };
 

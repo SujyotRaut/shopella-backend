@@ -1,31 +1,30 @@
 import { ProductResolvers } from '../../generated/graphql-types';
 
 const Product: ProductResolvers = {
-  images: async (product, _, ctx) => {
-    const p = await ctx.prisma.product.findUnique({
-      where: { id: product.id },
-      select: { images: true },
-    });
-
-    return JSON.parse(p!.images);
-  },
-  colors: (product, _, ctx) => {
-    console.log('Product > colors');
+  images: (parent, _, ctx) => {
+    console.log('Product > images');
     return ctx.prisma.product
-      .findUnique({ where: { id: product.id } })
-      .colors();
+      .findUnique({
+        where: { id: parent.id },
+      })
+      .images()
+      .then((images) => images.map((image) => image.image));
   },
-  sizes: (product, _, ctx) => {
+  colors: (parent, _, ctx) => {
+    console.log('Product > colors');
+    return ctx.prisma.product.findUnique({ where: { id: parent.id } }).colors();
+  },
+  sizes: (parent, _, ctx) => {
     console.log('Product > sizes');
-    return ctx.prisma.product.findUnique({ where: { id: product.id } }).sizes();
+    return ctx.prisma.product.findUnique({ where: { id: parent.id } }).sizes();
   },
-  tags: (product, _, ctx) => {
-    return ctx.prisma.product.findUnique({ where: { id: product.id } }).tags();
+  tags: (parent, _, ctx) => {
+    return ctx.prisma.product.findUnique({ where: { id: parent.id } }).tags();
   },
-  reviews: (product, _, ctx) => {
+  reviews: (parent, _, ctx) => {
     console.log('Product > reviews');
     return ctx.prisma.product
-      .findUnique({ where: { id: product.id } })
+      .findUnique({ where: { id: parent.id } })
       .reviews();
   },
 };

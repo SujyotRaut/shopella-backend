@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const prisma = new PrismaClient();
-const colors = [
+const COLORS = [
   '#9BB7D4',
   '#1B7340',
   '#E9897E',
@@ -66,12 +66,13 @@ async function main() {
 }
 
 async function createProduct(product: ProductJSON) {
-  const c = [
-    colors[
-      ((getRandomInt(0, colors.length), getRandomInt(0, colors.length)),
-      getRandomInt(0, colors.length))
-    ],
+  const colors = [
+    COLORS[getRandomInt(0, COLORS.length)],
+    COLORS[getRandomInt(0, COLORS.length)],
+    COLORS[getRandomInt(0, COLORS.length)],
   ];
+
+  product.colors = colors;
 
   await prisma.product.upsert({
     where: { id: product.id },
@@ -81,13 +82,19 @@ async function createProduct(product: ProductJSON) {
       name: product.name,
       brand: product.brand,
       category: product.category,
-      images: JSON.stringify(product.images),
       discount: product.discount,
-      price: product.original_price,
+      originalPrice: product.original_price,
+      discountedPrice: product.discounted_price,
       rating: product.rating,
       ratingCount: product.rating_count,
+      images: {
+        connectOrCreate: product.images.map((image) => ({
+          where: { image },
+          create: { image },
+        })),
+      },
       colors: {
-        connectOrCreate: c.map((color) => ({
+        connectOrCreate: product.colors.map((color) => ({
           where: { color },
           create: { color },
         })),
@@ -99,7 +106,7 @@ async function createProduct(product: ProductJSON) {
         })),
       },
       tags: {
-        connectOrCreate: product.sizes.map((tag) => ({
+        connectOrCreate: product.tags.map((tag) => ({
           where: { tag },
           create: { tag },
         })),
