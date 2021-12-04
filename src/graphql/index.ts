@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Resolvers } from '../generated/graphql-types';
+import Category from './resolvers/Category';
 import Color from './resolvers/Color';
 import Product from './resolvers/Product';
 import Query from './resolvers/Query';
@@ -21,6 +22,7 @@ fs.readdirSync(typeDefsPath).forEach((fileName) => {
 export { graphqlTypes as typeDefs };
 
 export const resolvers: Resolvers = {
+  Category,
   Product,
   Review,
   Color,

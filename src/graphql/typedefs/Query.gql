@@ -1,5 +1,15 @@
 type Query {
   me: User
-  products: [Product!]
+  products(
+    sort: ProductSort! = name
+    order: SortOrder! = asc
+    filter: ProductFilter
+    take: Int = 10
+    skip: Int = 0
+  ): [Product!]
   product(id: ID!): Product
+  categories: [Category!]
+  colors: [Color!]
+  sizes: [Size!]
+  tags: [Tag!]
 }

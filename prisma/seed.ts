@@ -81,12 +81,17 @@ async function createProduct(product: ProductJSON) {
       id: product.id,
       name: product.name,
       brand: product.brand,
-      category: product.category,
       discount: product.discount,
       originalPrice: product.original_price,
       discountedPrice: product.discounted_price,
       rating: product.rating,
       ratingCount: product.rating_count,
+      category: {
+        connectOrCreate: {
+          where: { category: product.category },
+          create: { category: product.category },
+        },
+      },
       images: {
         connectOrCreate: product.images.map((image) => ({
           where: { image },

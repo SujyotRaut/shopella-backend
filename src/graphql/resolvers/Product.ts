@@ -1,6 +1,12 @@
 import { ProductResolvers } from '../../generated/graphql-types';
 
 const Product: ProductResolvers = {
+  category: (parent, _, ctx) => {
+    console.log('Product > category');
+    return ctx.prisma.product
+      .findUnique({ where: { id: parent.id } })
+      .category();
+  },
   images: (parent, _, ctx) => {
     console.log('Product > images');
     return ctx.prisma.product

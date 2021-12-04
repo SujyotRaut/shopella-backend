@@ -46,7 +46,7 @@ async function startApolloServer() {
 
   await server.start();
 
-  // Applying middlewares
+  // Apply middlewares
   server.applyMiddleware({ app });
   app.use(checkJwt);
 

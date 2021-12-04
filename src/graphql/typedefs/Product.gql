@@ -2,7 +2,7 @@ type Product {
   id: ID!
   name: String
   brand: String
-  category: String
+  category: Category
   images: [String!]
   discount: Float
   originalPrice: Float
@@ -13,6 +13,12 @@ type Product {
   colors: [Color!]
   tags: [Tag!]
   reviews: [Review!]
+}
+
+type Category {
+  id: Int!
+  category: String
+  products: [Product!]
 }
 
 type Size {
@@ -31,4 +37,21 @@ type Tag {
   id: Int!
   tag: String
   products: [Product!]
+}
+
+enum ProductSort {
+  id
+  name
+  discount
+  originalPrice
+  discountedPrice
+  rating
+  ratingCount
+}
+
+input ProductFilter {
+  category: String
+  color: String
+  size: String
+  tag: String
 }

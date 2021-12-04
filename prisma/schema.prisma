@@ -22,7 +22,8 @@ model Product {
   id              String   @id
   name            String
   brand           String
-  category        String
+  category        Category @relation(fields: [categroyId], references: [id])
+  categroyId      Int
   discount        Float?
   originalPrice   Float
   discountedPrice Float
@@ -40,6 +41,12 @@ model Image {
   image     String  @unique
   product   Product @relation(fields: [productId], references: [id])
   productId String
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  category String    @unique
+  products Product[]
 }
 
 model Color {
